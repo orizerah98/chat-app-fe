@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FormEventHandler, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,9 +12,31 @@ import Container from "@material-ui/core/Container";
 
 import Copyright from "../core/Copyright";
 import useStyles from "./styles";
+import * as userApi from "../../api/userApi";
 
 export default function SignUp() {
   const classes = useStyles();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    displayName: "",
+  });
+
+  const handleChange: FormEventHandler = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit: FormEventHandler = async (e) => {
+    e.preventDefault();
+    const { email, password, displayName } = formData;
+    const response: any = await userApi.register(email, password, displayName);
+    if (response.response.status !== 200) {
+      window.alert(response.response.data.message);
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -26,17 +48,19 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                value={formData.email}
+                onChange={handleChange}
                 autoFocus
               />
             </Grid>
@@ -50,6 +74,8 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={formData.password}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -61,6 +87,8 @@ export default function SignUp() {
                 label="Display Name"
                 name="displayName"
                 autoComplete="displayName"
+                onChange={handleChange}
+                value={formData.displayName}
               />
             </Grid>
           </Grid>
