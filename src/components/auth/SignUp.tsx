@@ -33,7 +33,7 @@ export default function SignUp() {
     e.preventDefault();
     const { email, password, displayName } = formData;
     const response: any = await userApi.register(email, password, displayName);
-    if (response.response.status !== 200) {
+    if (!(response.status && response.status === 200)) {
       window.alert(response.response.data.message);
     }
   };

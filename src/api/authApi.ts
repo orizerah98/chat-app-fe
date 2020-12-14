@@ -19,3 +19,15 @@ export const register = async (
     return err;
   }
 };
+
+export const login = async (email: string, password: string) => {
+  try {
+    const response = await axios.post(`${url}/login`, {
+      email: email,
+      password: password,
+    });
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
