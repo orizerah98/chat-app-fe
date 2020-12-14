@@ -14,7 +14,7 @@ import Container from "@material-ui/core/Container";
 
 import useStyles from "./styles";
 import Copyright from "../core/Copyright";
-import * as userApi from "../../api/userApi";
+import * as authApi from "../../api/authApi";
 
 export default function SignIn() {
   const classes = useStyles();
@@ -33,7 +33,7 @@ export default function SignIn() {
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     const { email, password } = formData;
-    const response: any = await userApi.login(email, password);
+    const response: any = await authApi.login(email, password);
     if (!(response.status && response.status === 200)) {
       window.alert(response.message);
     }

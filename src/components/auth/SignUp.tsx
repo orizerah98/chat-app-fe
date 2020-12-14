@@ -12,7 +12,7 @@ import Container from "@material-ui/core/Container";
 
 import Copyright from "../core/Copyright";
 import useStyles from "./styles";
-import * as userApi from "../../api/userApi";
+import * as authApi from "../../api/authApi";
 
 export default function SignUp() {
   const classes = useStyles();
@@ -32,7 +32,7 @@ export default function SignUp() {
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     const { email, password, displayName } = formData;
-    const response: any = await userApi.register(email, password, displayName);
+    const response: any = await authApi.register(email, password, displayName);
     if (!(response.status && response.status === 200)) {
       window.alert(response.response.data.message);
     }
