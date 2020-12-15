@@ -9,12 +9,14 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import { useHistory } from "react-router-dom";
 
 import Copyright from "../core/Copyright";
 import useStyles from "./styles";
 import * as authApi from "../../api/authApi";
 
 export default function SignUp() {
+  const history = useHistory();
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
@@ -36,6 +38,7 @@ export default function SignUp() {
     if (!(response.status && response.status === 200)) {
       window.alert(response.response.data.message);
     }
+    history.push("/main");
   };
 
   return (

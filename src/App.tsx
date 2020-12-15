@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
+import ChatMenu from "./components/chats/ChatMenu";
 
 function App() {
   return (
@@ -13,6 +14,9 @@ function App() {
         </Route>
         <Route path="/signup">
           <SignUp />
+        </Route>
+        <Route path="/main">
+          <ChatMenu />
         </Route>
       </Switch>
     </Router>

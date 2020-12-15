@@ -11,12 +11,14 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import { useHistory } from "react-router-dom";
 
 import useStyles from "./styles";
 import Copyright from "../core/Copyright";
 import * as authApi from "../../api/authApi";
 
 export default function SignIn() {
+  const history = useHistory();
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
@@ -37,6 +39,7 @@ export default function SignIn() {
     if (!(response.status && response.status === 200)) {
       window.alert(response.message);
     }
+    history.push("/main");
   };
 
   return (
