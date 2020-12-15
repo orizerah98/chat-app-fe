@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
-import ChatMenu from "./components/chats/ChatMenu";
+import ChatPage from "./components/chats/ChatPage";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
           <SignUp />
         </Route>
         <Route path="/main">
-          <ChatMenu />
+          <ChatPage />
         </Route>
       </Switch>
     </Router>

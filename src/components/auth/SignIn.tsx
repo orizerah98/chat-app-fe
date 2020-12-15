@@ -12,14 +12,17 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import useStyles from "./styles";
 import Copyright from "../core/Copyright";
 import * as authApi from "../../api/authApi";
+import { SET_USER_ID } from "../../redux/types";
 
 export default function SignIn() {
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -38,8 +41,10 @@ export default function SignIn() {
     const response: any = await authApi.login(email, password);
     if (!(response.status && response.status === 200)) {
       window.alert(response.message);
+    } else {
+      dispatch({ type: SET_USER_ID, userId: response.data._id });
+      history.push("/main");
     }
-    history.push("/main");
   };
 
   return (
