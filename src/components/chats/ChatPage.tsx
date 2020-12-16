@@ -5,35 +5,33 @@ import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
 
 import { chatPageStyles } from "./styles";
 import { appState } from "../../redux/types";
 import * as chatApi from "../../api/chatApi";
-import MenuItem from "./MenuItem";
 import MessageList from "./MessageList";
 import MessageInput from "./InputForm";
 import initSocket from "../../websocketClient/socketClient";
+import ChatMenu from "./ChatMenu";
+import { IChat } from "../../interfaces/chat";
 
 function ChatPage(state: appState) {
   const classes = chatPageStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [chats, setChats] = useState<any>([]);
-  const [currentChat, setCurrentChat] = useState({
-    name: "Loading",
-    messages: [] as any[],
-    _id: undefined,
-  });
+  const [currentChat, setCurrentChat] = useState<IChat | null>();
   const [newMessage, setNewMessage] = useState<any>();
   const [socket, setSocket] = useState<any>();
+  const [topMenuOpen, setTopMenuOpen] = useState(false);
 
   useEffect(() => {
     if (newMessage) {
@@ -44,21 +42,22 @@ function ChatPage(state: appState) {
         message: newMessage.message,
         sendTime: newMessage.sendTime,
       });
-      if (chat._id === currentChat._id) {
+      if (!currentChat || chat._id === currentChat._id) {
         setCurrentChat(chat);
       }
     }
   }, [newMessage]);
 
   const handleSentMessage = (message: string) => {
+    if (!state.user) return window.alert("User is not authenticated");
     const messageData = {
-      chatId: currentChat._id,
+      chatId: currentChat?._id,
       message: message,
-      displayName: state.user?.displayName,
+      displayName: state.user.displayName,
       sendTime: new Date().toISOString(),
     };
     socket.emit("sendMessage", messageData);
-    const newChat = { ...currentChat };
+    const newChat = { ...currentChat } as IChat;
     newChat.messages.push(messageData);
     setCurrentChat(newChat);
   };
@@ -100,9 +99,12 @@ function ChatPage(state: appState) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap className={classes.title}>
             Argon Chat
           </Typography>
+          <IconButton color="inherit">
+            <MoreVertIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -124,16 +126,7 @@ function ChatPage(state: appState) {
           </IconButton>
         </div>
         <Divider />
-        <List>
-          {chats.map((chat: any, index: number) => (
-            <MenuItem
-              name={chat.name}
-              iconUrl={chat.iconUrl}
-              key={index}
-              setChat={() => setCurrentChat(chat)}
-            />
-          ))}
-        </List>
+        <ChatMenu chats={chats} setCurrentChat={setCurrentChat} />
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -141,7 +134,7 @@ function ChatPage(state: appState) {
         })}
       >
         <div className={classes.drawerHeader} />
-        <MessageList messages={currentChat.messages} />
+        <MessageList messages={currentChat ? currentChat.messages : []} />
         <MessageInput onSendMessage={handleSentMessage} />
       </main>
     </div>

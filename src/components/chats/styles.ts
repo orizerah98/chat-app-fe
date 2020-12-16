@@ -58,5 +58,8 @@ export const chatPageStyles = makeStyles((theme: Theme) => {
       }),
       marginLeft: 0,
     },
+    title: {
+      flexGrow: 1,
+    },
   };
 });

@@ -4,7 +4,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 
-export default function MenuItem(props: any) {
+export default function ChatMenuItem(props: any) {
   const chat = props;
 
   return (

@@ -1,6 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
+import { IMessage } from "../../interfaces/chat";
+
 const Container = styled.div`
   position: relative;
   display: block;
@@ -84,21 +86,15 @@ const Timestamp = styled.div`
   font-size: 12px;
 `;
 
-interface Message {
-  id: string | null;
-  message: string | null;
-  sendTime: Date | null;
-  displayName: string | null;
-}
 interface MessagesListProps {
-  messages: Array<Message>;
+  messages: Array<IMessage>;
 }
 
 const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
   return (
     <Container>
-      {messages.map((message: any) => (
-        <MessageItem isMine={message.isMine} key={message.id}>
+      {messages.map((message: any, index: number) => (
+        <MessageItem isMine={message.isMine} key={index}>
           <DisplayName>{message.displayName}</DisplayName>
           <Contents>{message.message}</Contents>
           <Timestamp>{message.sendTime.substring(11, 16)}</Timestamp>
