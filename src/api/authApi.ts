@@ -1,7 +1,5 @@
 import axios from "axios";
-
-// const url = process.env.API_URL;
-const url = "http://192.168.105.24:8080";
+import { API_URL } from "../config";
 
 export const register = async (
   email: string,
@@ -9,7 +7,7 @@ export const register = async (
   displayName: string
 ) => {
   try {
-    const response = await axios.post(`${url}/register`, {
+    const response = await axios.post(`${API_URL}/register`, {
       email: email,
       password: password,
       displayName: displayName,
@@ -22,7 +20,7 @@ export const register = async (
 
 export const login = async (email: string, password: string) => {
   try {
-    const response = await axios.post(`${url}/login`, {
+    const response = await axios.post(`${API_URL}/login`, {
       email: email,
       password: password,
     });

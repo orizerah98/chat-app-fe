@@ -1,9 +1,8 @@
 import io from "socket.io-client";
-
-const SOCKET_SERVER_URL = "http://192.168.105.24:8080";
+import { API_URL } from "../config";
 
 export default function initSocket(handleNewMessage: Function) {
-  const socket = io(SOCKET_SERVER_URL);
+  const socket = io(API_URL);
   socket.on("sendMessage", (message: string) => {
     const messageData = JSON.parse(message);
     handleNewMessage(messageData);
