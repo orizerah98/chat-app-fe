@@ -9,11 +9,13 @@ import { useDispatch } from "react-redux";
 
 import { appState } from "../../redux/types";
 import { SET_USER } from "../../redux/types";
+import CreateChatModal from "./modals/CreateChatModal";
 
-function SimpleMenu(state: appState) {
+function SettingsMenu(props: any) {
   const history = useHistory();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [isModalOpen, setModalOpen] = React.useState<boolean>(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,8 +42,13 @@ function SimpleMenu(state: appState) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>AddChat</MenuItem>
+        <MenuItem onClick={() => setModalOpen(true)}>Create New Chat</MenuItem>
         <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+        <CreateChatModal
+          isOpen={isModalOpen}
+          setOpen={setModalOpen}
+          handleCreatedChat={props.handleCreatedChat}
+        />
       </Menu>
     </div>
   );
@@ -51,4 +58,4 @@ const mapStateToProps = (state: appState) => {
   return state;
 };
 
-export default connect(mapStateToProps)(SimpleMenu);
+export default connect(mapStateToProps)(SettingsMenu);

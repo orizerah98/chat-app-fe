@@ -11,7 +11,6 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
 
 import { chatPageStyles } from "./styles";
@@ -28,11 +27,10 @@ function ChatPage(state: appState) {
   const classes = chatPageStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [chats, setChats] = useState<any>([]);
+  const [chats, setChats] = useState<IChat[]>([]);
   const [currentChat, setCurrentChat] = useState<IChat | null>();
   const [newMessage, setNewMessage] = useState<any>();
   const [socket, setSocket] = useState<any>();
-  const [topMenuOpen, setTopMenuOpen] = useState(false);
 
   useEffect(() => {
     if (newMessage) {
@@ -61,6 +59,11 @@ function ChatPage(state: appState) {
     const newChat = { ...currentChat } as IChat;
     newChat.messages.push(messageData);
     setCurrentChat(newChat);
+  };
+
+  const handleCreatedChat = (chat: IChat) => {
+    setCurrentChat(chat);
+    setChats([...chats, chat]);
   };
 
   useEffect(() => {
@@ -101,9 +104,9 @@ function ChatPage(state: appState) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap className={classes.title}>
-            Argon Chat
+            {currentChat ? currentChat.name : "Argon Chat"}
           </Typography>
-          <SettingsMenu />
+          <SettingsMenu handleCreatedChat={handleCreatedChat} />
         </Toolbar>
       </AppBar>
       <Drawer
