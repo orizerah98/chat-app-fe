@@ -14,16 +14,16 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { connect } from "react-redux";
 
-import useStyles from "./styles";
+import { chatPageStyles } from "./styles";
 import { appState } from "../../redux/types";
 import * as chatApi from "../../api/chatApi";
 import MenuItem from "./MenuItem";
-import Message from "./Message";
-import InputForm from "./InputForm";
+import MessageList from "./MessageList";
+import MessageInput from "./InputForm";
 import initSocket from "../../websocketClient/socketClient";
 
 function ChatPage(state: appState) {
-  const classes = useStyles();
+  const classes = chatPageStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [chats, setChats] = useState<any>([]);
@@ -42,6 +42,7 @@ function ChatPage(state: appState) {
       chat.messages.push({
         displayName: newMessage.displayName,
         message: newMessage.message,
+        sendTime: newMessage.sendTime,
       });
       if (chat._id === currentChat._id) {
         setCurrentChat(chat);
@@ -54,8 +55,8 @@ function ChatPage(state: appState) {
       chatId: currentChat._id,
       message: message,
       displayName: state.user?.displayName,
+      sendTime: new Date().toISOString(),
     };
-    //@ts-ignore
     socket.emit("sendMessage", messageData);
     const newChat = { ...currentChat };
     newChat.messages.push(messageData);
@@ -72,7 +73,6 @@ function ChatPage(state: appState) {
       } else {
         const newChats = response.data;
         setChats(newChats);
-        console.log(chats);
         if (newChats.length > 0) {
           setCurrentChat(newChats[0]);
         }
@@ -141,14 +141,8 @@ function ChatPage(state: appState) {
         })}
       >
         <div className={classes.drawerHeader} />
-        {currentChat.messages.map((message: any, index) => (
-          <Message
-            displayName={message.displayName}
-            content={message.message}
-            key={index}
-          />
-        ))}
-        <InputForm handleMessage={handleSentMessage} />
+        <MessageList messages={currentChat.messages} />
+        <MessageInput onSendMessage={handleSentMessage} />
       </main>
     </div>
   );

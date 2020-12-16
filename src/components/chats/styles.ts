@@ -1,8 +1,8 @@
-import { Theme, makeStyles } from "@material-ui/core";
+import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme: Theme) => {
+export const chatPageStyles = makeStyles((theme: Theme) => {
   return {
     root: {
       display: "flex",
@@ -60,5 +60,3 @@ const useStyles = makeStyles((theme: Theme) => {
     },
   };
 });
-
-export default useStyles;
