@@ -48,7 +48,6 @@ const MessageItem = styled.div`
 
           &::before {
             right: -11px;
-            background-image: url(/assets/message-mine.png);
           }
         `
       : css`
@@ -57,9 +56,14 @@ const MessageItem = styled.div`
 
           &::before {
             left: -11px;
-            background-image: url(/assets/message-other.png);
           }
         `}
+`;
+
+const DisplayName = styled.div`
+  color: grey;
+  margin-left: 5px;
+  font-size: 0.75rem;
 `;
 
 const Contents = styled.div`
@@ -84,6 +88,7 @@ interface Message {
   id: string | null;
   message: string | null;
   sendTime: Date | null;
+  displayName: string | null;
 }
 interface MessagesListProps {
   messages: Array<Message>;
@@ -94,6 +99,7 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
     <Container>
       {messages.map((message: any) => (
         <MessageItem isMine={message.isMine} key={message.id}>
+          <DisplayName>{message.displayName}</DisplayName>
           <Contents>{message.message}</Contents>
           <Timestamp>{message.sendTime.substring(11, 16)}</Timestamp>
         </MessageItem>
