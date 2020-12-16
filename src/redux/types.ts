@@ -1,4 +1,4 @@
-export const SET_USER_ID = "SET_USER_ID";
+export const SET_USER = "SET_USER";
 
 interface IUser {
   _id: string;
@@ -7,7 +7,7 @@ interface IUser {
 }
 
 interface SetUserIdAction {
-  type: typeof SET_USER_ID;
+  type: typeof SET_USER;
   user: IUser;
 }
 

@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import useStyles from "./styles";
 import Copyright from "../core/Copyright";
 import * as authApi from "../../api/authApi";
-import { SET_USER_ID } from "../../redux/types";
+import { SET_USER } from "../../redux/types";
 
 export default function SignIn() {
   const history = useHistory();
@@ -42,7 +42,7 @@ export default function SignIn() {
     if (!(response.status && response.status === 200)) {
       window.alert(response.message);
     } else {
-      dispatch({ type: SET_USER_ID, user: response.data });
+      dispatch({ type: SET_USER, user: response.data });
       history.push("/main");
     }
   };

@@ -1,9 +1,9 @@
-import { SET_USER_ID, ActionTypes, appState } from "./types";
+import { SET_USER, ActionTypes, appState } from "./types";
 
 const initialState: appState = { user: undefined };
 
 const actionMapping = {
-  [SET_USER_ID]: (state: object, action: ActionTypes) => {
+  [SET_USER]: (state: object, action: ActionTypes) => {
     const newState = { ...state, user: action.user };
     return newState;
   },
