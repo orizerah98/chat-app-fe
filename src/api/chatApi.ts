@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const url = process.env.API_URL;
-const url = "http://localhost:8080";
+const url = "http://192.168.105.24:8080";
 
 export const getUserChats = async (userId: string) => {
   try {

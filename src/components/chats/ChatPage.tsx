@@ -19,33 +19,67 @@ import { appState } from "../../redux/types";
 import * as chatApi from "../../api/chatApi";
 import MenuItem from "./MenuItem";
 import Message from "./Message";
+import InputForm from "./InputForm";
+import initSocket from "../../websocketClient/socketClient";
 
 function ChatPage(state: appState) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useState<any>([]);
   const [currentChat, setCurrentChat] = useState({
     name: "Loading",
-    messages: [],
+    messages: [] as any[],
+    _id: undefined,
   });
+  const [newMessage, setNewMessage] = useState<any>();
+  const [socket, setSocket] = useState<any>();
 
   useEffect(() => {
+    if (newMessage) {
+      const chat: any = chats.find((c: any) => c._id === newMessage.chatId);
+      if (!chat) return;
+      chat.messages.push({
+        displayName: newMessage.displayName,
+        message: newMessage.message,
+      });
+      if (chat._id === currentChat._id) {
+        setCurrentChat(chat);
+      }
+    }
+  }, [newMessage]);
+
+  const handleSentMessage = (message: string) => {
+    const messageData = {
+      chatId: currentChat._id,
+      message: message,
+      displayName: state.user?.displayName,
+    };
+    //@ts-ignore
+    socket.emit("sendMessage", messageData);
+    const newChat = { ...currentChat };
+    newChat.messages.push(messageData);
+    setCurrentChat(newChat);
+  };
+
+  useEffect(() => {
+    setSocket(initSocket(setNewMessage));
     const loadChats = async () => {
-      const response = await chatApi.getUserChats(state.userId as string);
+      const response = await chatApi.getUserChats(state.user?._id as string);
       if (response.isAxiosError) {
         window.alert("Failed to fetch chats");
         setChats([]);
       } else {
         const newChats = response.data;
         setChats(newChats);
+        console.log(chats);
         if (newChats.length > 0) {
           setCurrentChat(newChats[0]);
         }
       }
     };
     loadChats();
-  }, [state.userId]);
+  }, [state.user]);
 
   return (
     <div className={classes.root}>
@@ -91,7 +125,7 @@ function ChatPage(state: appState) {
         </div>
         <Divider />
         <List>
-          {chats.map((chat: any, index) => (
+          {chats.map((chat: any, index: number) => (
             <MenuItem
               name={chat.name}
               iconUrl={chat.iconUrl}
@@ -114,6 +148,7 @@ function ChatPage(state: appState) {
             key={index}
           />
         ))}
+        <InputForm handleMessage={handleSentMessage} />
       </main>
     </div>
   );

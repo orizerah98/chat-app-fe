@@ -42,7 +42,7 @@ export default function SignIn() {
     if (!(response.status && response.status === 200)) {
       window.alert(response.message);
     } else {
-      dispatch({ type: SET_USER_ID, userId: response.data._id });
+      dispatch({ type: SET_USER_ID, user: response.data });
       history.push("/main");
     }
   };

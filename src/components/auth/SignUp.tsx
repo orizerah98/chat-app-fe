@@ -41,7 +41,7 @@ export default function SignUp() {
     if (!(response.status && response.status === 200)) {
       window.alert(response.response.data.message);
     } else {
-      dispatch({ type: SET_USER_ID, userId: response.data._id });
+      dispatch({ type: SET_USER_ID, user: response.data });
       history.push("/main");
     }
   };
