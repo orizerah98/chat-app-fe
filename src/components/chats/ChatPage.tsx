@@ -22,6 +22,7 @@ import MessageInput from "./InputForm";
 import initSocket from "../../websocketClient/socketClient";
 import ChatMenu from "./ChatMenu";
 import { IChat } from "../../interfaces/chat";
+import SettingsMenu from "./SettingsMenu";
 
 function ChatPage(state: appState) {
   const classes = chatPageStyles();
@@ -102,9 +103,7 @@ function ChatPage(state: appState) {
           <Typography variant="h6" noWrap className={classes.title}>
             Argon Chat
           </Typography>
-          <IconButton color="inherit">
-            <MoreVertIcon />
-          </IconButton>
+          <SettingsMenu />
         </Toolbar>
       </AppBar>
       <Drawer
