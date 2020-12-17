@@ -41,11 +41,12 @@ function ChatPage(state: appState) {
         message: newMessage.message,
         sendTime: newMessage.sendTime,
       });
+      setNewMessage(undefined);
       if (!currentChat || chat._id === currentChat._id) {
         setCurrentChat(chat);
       }
     }
-  }, [newMessage]);
+  }, [newMessage, chats, currentChat]);
 
   const handleSentMessage = (message: string) => {
     if (!state.user) return window.alert("User is not authenticated");
