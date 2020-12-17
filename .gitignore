@@ -25,6 +25,7 @@ yarn-error.log*
 # Extra
 .env
 .env.development
+.eslintcache
 
 # vscode
 .vscode
