@@ -1,8 +1,8 @@
 import React from "react";
 import MultiSelect from "react-multi-select-component";
 
-import { IUser } from "../../../interfaces/user";
-import * as userApi from "../../../api/userApi";
+import { IUser } from "../../../../interfaces/user";
+import * as userApi from "../../../../api/userApi";
 import { Option } from "react-multi-select-component/dist/lib/interfaces";
 
 interface UserMultiselectProps {
@@ -10,7 +10,7 @@ interface UserMultiselectProps {
   setSelected(selected: Option[]): void;
 }
 
-export default function UsersMultiselectField(props: UserMultiselectProps) {
+export function UsersMultiselectField(props: UserMultiselectProps) {
   const [options, setOptions] = React.useState([]);
 
   const getEmails = async () => {

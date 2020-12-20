@@ -6,7 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-import UsersMultiselectField from "./UsersMultiselectField";
+import { UsersMultiselectField } from "./user-multiselect";
 import { Option } from "react-multi-select-component/dist/lib/interfaces";
 import { IChat } from "../../../interfaces/chat";
 import * as chatApi from "../../../api/chatApi";
@@ -22,7 +22,7 @@ interface ChatData {
   iconUrl: string;
 }
 
-export default function CreateChatModal(props: FromDialogProps) {
+export function CreateChatModal(props: FromDialogProps) {
   const handleClose = () => {
     props.setOpen(false);
   };

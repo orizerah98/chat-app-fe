@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-import { IMessage } from "../../interfaces/chat";
+import { IMessage } from "../../../interfaces/chat";
 
 const Container = styled.div`
   position: relative;

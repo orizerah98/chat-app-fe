@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 
 import { appState } from "../../redux/types";
 import { SET_USER } from "../../redux/types";
-import CreateChatModal from "./modals/CreateChatModal";
+import { CreateChatModal } from "./create-chat-form";
 
 function SettingsMenu(props: any) {
   const history = useHistory();

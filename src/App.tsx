@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import ChatPage from "./components/chats/ChatPage";
+import ChatPage from "./chats";
 import { Authenticate } from "./authenticate";
 import { Routes } from "./consts/routes";
 

@@ -14,14 +14,14 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { connect } from "react-redux";
 
 import { chatPageStyles } from "./styles";
-import { appState } from "../../redux/types";
-import * as chatApi from "../../api/chatApi";
-import MessageList from "./MessageList";
-import MessageInput from "./InputForm";
-import initSocket from "../../websocketClient/socketClient";
-import ChatMenu from "./ChatMenu";
-import { IChat } from "../../interfaces/chat";
-import SettingsMenu from "./SettingsMenu";
+import { appState } from "../redux/types";
+import * as chatApi from "../api/chatApi";
+import MessageList from "./chat-display/messages";
+import MessageInput from "./chat-display/message-input";
+import initSocket from "../websocketClient/socketClient";
+import ChatMenu from "./chat-menu";
+import { IChat } from "../interfaces/chat";
+import SettingsMenu from "./settings-menu";
 
 function ChatPage(state: appState) {
   const classes = chatPageStyles();
