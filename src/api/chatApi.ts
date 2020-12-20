@@ -9,7 +9,7 @@ export const getUserChats = async (userId: string) => {
       url: `${API_URL}/chats`,
       withCredentials: true,
       params: {
-        userId: userId,
+        userId,
       },
     });
     return response;
@@ -26,7 +26,7 @@ export const addChat = async (
   try {
     const response = await axios.post(
       `${API_URL}/chats`,
-      { userEmails: userEmails, name: name, iconUrl: iconUrl },
+      { userEmails, name, iconUrl },
       {
         withCredentials: true,
       }

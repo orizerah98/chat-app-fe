@@ -8,9 +8,9 @@ export const register = async (
 ) => {
   try {
     const response = await axios.post(`${API_URL}/register`, {
-      email: email,
-      password: password,
-      displayName: displayName,
+      email,
+      password,
+      displayName,
     });
     return response;
   } catch (err) {
@@ -21,8 +21,8 @@ export const register = async (
 export const login = async (email: string, password: string) => {
   try {
     const response = await axios.post(`${API_URL}/login`, {
-      email: email,
-      password: password,
+      email,
+      password,
     });
     return response;
   } catch (err) {

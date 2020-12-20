@@ -1,5 +1,4 @@
 import React, { FormEventHandler, useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -8,18 +7,19 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import useStyles from "./styles";
-import Copyright from "../core/Copyright";
+import { useStyles } from "../shared/styles";
+import Copyright from "../shared/copyright";
 import * as authApi from "../../api/authApi";
 import { SET_USER } from "../../redux/types";
+import { AuthenticationProps } from "../shared/types";
+import { Header } from "../shared/header";
+import { Routes } from "../../consts/routes";
 
-export default function SignIn() {
+export default function SignIn(props: AuthenticationProps) {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ export default function SignIn() {
       window.alert(response.message);
     } else {
       dispatch({ type: SET_USER, user: response.data });
-      history.push("/main");
+      history.push(Routes.CHATS);
     }
   };
 
@@ -51,12 +51,7 @@ export default function SignIn() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
+        <Header title="Sign In" />
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
@@ -102,8 +97,8 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link onClick={() => props.setIsSignIn(false)} href="#">
+                Don't have an account? Sign Up
               </Link>
             </Grid>
           </Grid>
